@@ -1,0 +1,245 @@
+.offer {
+  margin-top: 144px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 40px;
+  justify-content: flex-end;
+  height: 624px;
+  background: url('/assets/offer/offer.svg') no-repeat center;
+  background-size: contain;
+
+  .offer__content {
+    margin: 95px 0 0 20px;
+    grid-column: 2;
+
+    color: #f5f7fa;
+    max-width: 600px;
+
+    h2 {
+      font-family: 'Cabinet-Grotesk';
+      font-weight: 700;
+      font-size: 48px;
+      line-height: 2;
+      text-transform: uppercase;
+      color: #f5f7fa;
+    }
+
+    p {
+      max-width: 441px;
+      font-family: 'Cabinet-Grotesk';
+      font-weight: 300;
+      font-size: 24px;
+      text-transform: capitalize;
+      color: #f5f7fa;
+    }
+  }
+
+  .offer__button-wrapper {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: flex-end;
+    max-height: 400px;
+
+    .offer__button {
+      margin-right: 84px;
+      cursor: pointer;
+      background: transparent;
+      border: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 80px;
+      height: 50px;
+      position: relative;
+
+      img {
+        position: absolute;
+        width: 94px;
+        height: auto;
+        top: -11px;
+        right: 30px;
+      }
+
+      .offer__button-desc {
+        font-family: 'Cabinet-Grotesk';
+        color: white;
+        font-size: 14px;
+        line-height: 1.1;
+        top: -2px;
+        transition: transform 0.3s ease;
+      }
+    }
+  }
+
+  .offer__button:hover .offer__button-desc {
+    transform: translateX(10px);
+  }
+
+  /* New 1024px Breakpoint */
+  @media (max-width: 1024px) {
+    .offer__content {
+      margin: 120px 0 0 15px;
+      max-width: 500px;
+    }
+
+    .offer__content h2 {
+      max-width: 400px;
+      font-size: 40px;
+      line-height: 1.8;
+    }
+
+    .offer__content p {
+      max-width: 380px;
+      font-size: 20px;
+    }
+
+    .offer__button-wrapper .offer__button {
+      margin-right: 60px;
+      width: 70px;
+      height: 45px;
+    }
+
+    .offer__button-wrapper .offer__button img {
+      width: 80px;
+      height: 50px;
+      top: -10px;
+      right: 25px;
+    }
+
+    .offer__button-wrapper .offer__button .offer__button-desc {
+      font-size: 12px;
+    }
+  }
+
+  /* Existing 768px Breakpoint */
+  @media (max-width: 768px) {
+    .offer__content h2 {
+      margin: 80px 0 0 0px;
+      font-size: 30px;
+    }
+
+    .offer__content p {
+      max-width: 300px;
+      font-size: 16px;
+    }
+
+    .offer__button-wrapper {
+      margin-top: 60px;
+    }
+  }
+
+  /* Existing 576px Breakpoint */
+  @media (max-width: 576px) {
+    margin-top: 0;
+    height: 204px;
+    width: fit-content;
+    background: url('/assets/offer/offer.svg') no-repeat center;
+    background-size: cover;
+
+    .offer__content {
+      margin: -80px 0 0 15px;
+    }
+    .offer__button-wrapper {
+      margin-top: 20px;
+    }
+
+    .offer__content h2 {
+      margin: 90px 0 0 0px;
+      font-size: 18px;
+    }
+
+    .offer__content p {
+      font-size: 14px;
+    }
+
+    .offer__button-wrapper .offer__button img {
+      width: 70px;
+      height: 70px;
+    }
+
+    .offer__button-wrapper .offer__button .offer__button-desc {
+      margin-top: 10px;
+      font-size: 10px;
+    }
+  }
+
+  /* New 425px Breakpoint */
+  @media (max-width: 425px) {
+    .offer__button-wrapper {
+      margin-top: 5px;
+    }
+
+    .offer__content h2 {
+      margin: 120px 0 0 0px;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .offer__content p {
+      font-size: 10px;
+    }
+
+    .offer__button-wrapper .offer__button {
+      margin-right: 40px;
+      width: 60px;
+      height: 40px;
+    }
+
+    .offer__button-wrapper .offer__button img {
+      width: 65px;
+      height: 45px;
+    }
+
+    .offer__button-wrapper .offer__button .offer__button-desc {
+      margin-top: 0px;
+      font-size: 10px;
+    }
+
+    .offer__content {
+      max-width: 500px;
+    }
+  }
+
+  /* Existing 320px Breakpoint */
+  @media (max-width: 320px) {
+    .offer {
+      height: 300px;
+      display: grid;
+      grid-template-columns: 1fr 120px 20px;
+    }
+
+    .offer__content h2 {
+      margin: 130px 0 0 0px;
+      max-width: 600px;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+    .offer__content p {
+      font-size: 7px;
+      line-height: 1.5;
+      max-width: 140px;
+    }
+
+    .offer__button-wrapper .offer__button {
+      height: 55px;
+      position: absolute;
+      right: -60px;
+      width: 50px;
+    }
+
+    .offer__button-wrapper .offer__button img {
+      left: -55px;
+      width: 50px;
+      height: auto;
+    }
+
+    .offer__button-wrapper .offer__button .offer__button-desc {
+      position: relative;
+      left: -32px;
+      top: -4px;
+      font-size: 9px;
+      line-height: 1.2;
+      color: #f5f7fa;
+    }
+  }
+}

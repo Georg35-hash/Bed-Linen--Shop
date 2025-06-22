@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Log In!</title>
+  </head>
+  <body>
+    <main>
+      <div class="form-wrapper">
+        <form class="login-form" id="loginForm">
+          <h1>Login in Bed Linen Shop</h1>
+          <label for="login-email-input">
+            <input
+              class="input-form"
+              type="email"
+              name="email"
+              id="login-email-input"
+              placeholder="Your email"
+              required
+            />
+          </label>
+          <label for="login-password-input">
+            <input
+              class="input-form"
+              type="text"
+              name="password"
+              id="login-password-input"
+              placeholder="Your password"
+              required
+            />
+          </label>
+          <p>Haven't got a account? <a href="src/index.html">SignUp</a></p>
+          <button class="btn-log-in" type="submit">Submit</button>
+        </form>
+      </div>
+    </main>
+    <script type="module" src="/src/mainSignUpLogin.js"></script>
+  </body>
+</html>

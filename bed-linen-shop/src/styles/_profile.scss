@@ -1,0 +1,86 @@
+.profile-section {
+  display: flex;
+  justify-content: center;
+  max-width: 292px;
+  margin: 0 auto;
+  #userForm {
+    font-family: 'Cabinet-Grotesk';
+    padding: 20px;
+
+    border-radius: 10px;
+    color: white;
+    border: 1px gray solid;
+    box-sizing: border-box;
+    #loginInput {
+      background-color: transparent;
+      border: none;
+      color: white;
+    }
+    #loginInput:focus {
+      outline: none;
+    }
+
+    #emailInput {
+      margin-top: 4px;
+      border: none;
+      color: white;
+      background-color: transparent;
+    }
+    #emailInput:focus {
+      outline: none;
+    }
+    .buttons-wrapper {
+      margin-top: 10px;
+      display: grid;
+      justify-content: center;
+    }
+
+    .buttons-wrapper > a,
+    button {
+      color: white;
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+      border: none;
+      background-color: #0b4151;
+      border-radius: 5px;
+      font-size: 14px;
+      padding: 4px;
+    }
+    .profile-photo-wrapper {
+      position: relative;
+      display: inline-block;
+      max-width: 200px;
+      margin: 20px auto;
+    }
+
+    .profile-photo {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+    }
+
+    .upload-icon {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: #0b4151;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.4s ease-in-out;
+    }
+    #photo {
+      display: none;
+    }
+    .profile-photo-wrapper:hover .upload-icon {
+      opacity: 1;
+    }
+  }
+}

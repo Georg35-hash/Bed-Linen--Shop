@@ -1,0 +1,59 @@
+{
+  "EN": [
+    {
+      "id": 1,
+      "title": "Sleepy Shop",
+      "content": "Sleepy is the perfect bedding store for anyone looking to give their bedroom a makeover. With a wide selection of linens including sheets, duvet covers, quilts, and pillowcases, they have something to suit every taste. <br> They offer several color options, patterns, and textures so that you can create the perfect ambience in your bedroom. Their quality is second to none, with materials well-"
+    },
+    {
+      "id": 2,
+      "title": "Benefits Of Good Pillow",
+      "content": "There has long been speculation about the impact that sleeping on a quality pillow and seeing your dreams have on each other. Some people believe that when you sleep on good pillows, it allows dream energy to flow freely, allowing for clearer and more vivid dreams. Others maintain that a good night's sleep is simply not possible without a comfortable and supportive pillow."
+    },
+    {
+      "id": 3,
+      "title": "Healthy Sleep Habits",
+      "content": "Quality sleep is essential for overall health. Good sleep habits, such as maintaining a regular sleep schedule and creating a peaceful sleep environment, can have a significant impact on your well-being. Some people believe that when you sleep on good pillows, it allows dream energy to flow freely, allowing for clearer and more vivid dreams."
+    },
+    {
+      "id": 4,
+      "title": "Sleep Disorders and Solutions",
+      "content": "Sleep disorders, like insomnia or sleep apnea, can disrupt your life. We explore common disorders and their potential solutions to help you get better sleep."
+    },
+    {
+      "id": 5,
+      "title": "Choosing the Perfect Pillow",
+      "content": "The right pillow can make all the difference in sleep quality. We explore different pillow types and tips to help you find the perfect one for restful and comfortable nights."
+    }
+  ],
+  "UA": [
+    {
+      "id": 1,
+      "title": "Магазин Sleepy",
+      "content": "Sleepy – ідеальний магазин постільної білизни для тих, хто хоче оновити свою спальню. Завдяки широкому вибору постільної білизни, включаючи простирадла, підковдри, ковдри та наволочки, вони знайдуть щось на будь-який смак. <br> Вони пропонують кілька варіантів кольорів, візерунків та текстур, щоб ви могли створити ідеальну атмосферу у своїй спальні. Їхня якість не має собі рівних, а матеріали добре-"
+    },
+
+    {
+      "id": 2,
+      "title": "Переваги гарної подушки",
+      "content": "Давно ведуться роздуми про те, як сон на якісній подушці та бачення снів впливають одне на одного. Деякі люди вважають, що коли ви спите на гарних подушках, це дозволяє енергії снів вільно текти, що забезпечує чіткіші та яскравіші сни. Інші стверджують, що хороший нічний сон просто неможливий без зручної та підтримуючої подушки."
+    },
+    {
+      "id": 3,
+      "title": "Здорові звички сну",
+      "content": "Якісний сон є важливим для загального здоров'я. Хороші звички сну, такі як підтримка регулярного графіка сну та створення спокійного середовища для сну, можуть суттєво вплинути на ваше самопочуття. Деякі люди вважають, що коли ви спите на хороших подушках, це дозволяє енергії снів вільно текти, що сприяє чіткішим та яскравішим сновидінням."
+    },
+
+    {
+      "id": 4,
+      "title": "Розлади сну та їх вирішення",
+      "content": "Розлади сну, такі як безсоння або апное сну, можуть порушити ваше життя. Ми досліджуємо поширені розлади та їх потенційні рішення, щоб допомогти вам краще спати."
+    },
+
+    {
+      "id": 5,
+      "title": "Вибір ідеальної подушки",
+      "content": "Правильна подушка може мати вирішальне значення для якості сну. Ми досліджуємо різні типи подушок та поради, щоб допомогти вам знайти ідеальну для спокійних та комфортних ночей."
+    }
+  ]
+}

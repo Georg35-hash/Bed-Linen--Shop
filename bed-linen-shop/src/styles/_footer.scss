@@ -1,0 +1,340 @@
+footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #f5f7fa;
+  font-family: 'Cabinet-Grotesk', sans-serif;
+  position: relative;
+
+  .image-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+
+  .image-wrapper::before,
+  &::after {
+    content: '';
+    position: absolute;
+    z-index: 0;
+  }
+
+  .image-wrapper::before {
+    background: url('/assets/footer/girl.png') no-repeat;
+    background-size: contain;
+    background-position: left bottom;
+    width: 1440px;
+    height: 510px;
+    bottom: 0;
+  }
+
+  &::after {
+    background: url('/assets/footer/footer-pic.png') no-repeat;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    opacity: 0.4;
+  }
+
+  .container {
+    z-index: 2;
+    justify-content: center;
+    margin: 258px 0 0 455px;
+    display: grid;
+    grid-template-columns: 146px 243px 208px 310px;
+    gap: 20px;
+
+    .column {
+      height: fit-content;
+
+      h3 {
+        font-weight: 700;
+        font-size: 18px;
+        margin-bottom: 28px;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+
+        li {
+          display: flex;
+          align-items: center;
+          margin-bottom: 28px;
+
+          a {
+            z-index: 1;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.3s;
+
+            &:hover {
+              color: #a3d2ca;
+            }
+          }
+
+          img {
+            margin-right: 10px;
+            width: 20px;
+            height: 20px;
+          }
+        }
+      }
+
+      .social {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 20px;
+
+        a {
+          z-index: 1;
+          cursor: pointer;
+
+          img {
+            width: 24px;
+            height: 24px;
+            transition: transform 0.3s;
+
+            &:hover {
+              transform: scale(1.1);
+            }
+          }
+        }
+
+        p {
+          font:
+            400 16px 'Cabinet-Grotesk',
+            sans-serif;
+          text-transform: capitalize;
+          color: #f5f7fa;
+        }
+      }
+    }
+  }
+
+  .bottom {
+    z-index: 9;
+    text-align: center;
+    font-size: 14px;
+    margin-top: auto;
+    padding: 20px 0;
+
+    p {
+      font: 400 16px 'Leiko';
+      text-transform: capitalize;
+      color: rgba(245, 247, 250, 0.55);
+      margin: 5px 0;
+    }
+  }
+}
+
+/* New 1024px Breakpoint */
+@media (max-width: 1024px) {
+  footer {
+    .image-wrapper::before {
+      width: 1024px;
+      height: 400px;
+    }
+    .container {
+      margin-top: 200px;
+      margin-left: 200px;
+      grid-template-columns: 120px 200px 180px 250px;
+      gap: 15px;
+      .column {
+        h3 {
+          font-size: 16px;
+          margin-bottom: 20px;
+        }
+        ul {
+          li {
+            margin-bottom: 20px;
+            a {
+              font-size: 15px;
+            }
+            img {
+              width: 18px;
+              height: 18px;
+              margin-right: 8px;
+            }
+          }
+        }
+        .social {
+          gap: 8px;
+          margin-top: 15px;
+          p {
+            font-size: 14px;
+          }
+          img {
+            width: 20px;
+            height: 20px;
+          }
+        }
+      }
+    }
+    .bottom {
+      font-size: 12px;
+      padding: 15px 0;
+      p {
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  footer {
+    position: relative;
+    .image-wrapper::before,
+    &::after {
+      content: '';
+      position: absolute;
+      z-index: 0;
+      opacity: 0;
+    }
+    &::after {
+      background: url('/assets/footer/footer-pic.png') no-repeat;
+      background-size: cover;
+      width: 100%;
+      height: 100%;
+      opacity: 0.4;
+    }
+    .container {
+      display: grid;
+      margin: 0 auto;
+      grid-template-columns: 150px 200px 200px;
+      z-index: 1;
+      position: relative;
+      margin-top: 250px;
+      .column {
+        margin: 0 auto;
+        &:last-child {
+          margin-left: 30px;
+          width: 300px;
+        }
+        h3 {
+          font-weight: 700;
+          font-size: 18px;
+          margin-bottom: 12px;
+        }
+        ul {
+          list-style: none;
+          padding: 0;
+          li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 14px;
+            a {
+              text-decoration: none;
+              color: #f5f7fa;
+              &:hover {
+                color: #a3d2ca;
+              }
+            }
+            img {
+              margin-right: 8px;
+              width: 16px;
+              height: 16px;
+            }
+          }
+        }
+        .social {
+          display: flex;
+          justify-content: center;
+          a {
+            display: flex;
+            img {
+              display: flex;
+              justify-content: center;
+            }
+          }
+        }
+      }
+    }
+    .bottom {
+      text-align: center;
+      font-size: 14px;
+      padding: 10px 0;
+      margin-top: 20px;
+      z-index: 1;
+      position: relative;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  footer {
+    .container {
+      grid-template-columns: 160px 185px 150px;
+      .column {
+        h3 {
+          font-size: 20px;
+        }
+        ul {
+          li {
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 425px) {
+  footer {
+    .container {
+      padding-right: 20px;
+      grid-template-columns: 120px 130px 140px;
+      .column {
+        h3 {
+          font-size: 14px;
+        }
+        ul {
+          li {
+            a {
+              font-size: 12px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 320px) {
+  footer {
+    .container {
+      margin-top: 100px;
+      padding: 5px;
+      grid-template-columns: 60px 120px 100px;
+      .column {
+        &:last-child {
+          margin-left: 0;
+          .social {
+            a {
+              img {
+                width: 18px;
+              }
+            }
+          }
+        }
+        h3 {
+          font-size: 12px;
+        }
+        ul {
+          li {
+            a {
+              font-size: 12px;
+            }
+          }
+        }
+      }
+    }
+    .bottom {
+      p {
+        font-size: 12px;
+      }
+    }
+  }
+}

@@ -1,0 +1,91 @@
+.cart-title {
+  font-family: 'Cabinet-Grotesk';
+  font-size: 50px;
+}
+.form-button {
+  font-family: 'Cabinet-Grotesk';
+  font-size: 15px;
+}
+.product-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .product-image {
+    max-width: 400px;
+  }
+
+  .product-wrapper {
+    .product-name {
+      color: white;
+      font-family: 'Leiko', sans-serif;
+    }
+    .product-price {
+      color: white;
+    }
+    .product-description {
+      font-family: 'Cabinet-Grotesk', sans-serif;
+      color: white;
+      max-width: 400px;
+    }
+    .add-to-cart-btn {
+      margin-top: 10px;
+      padding: 20px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      background-color: #0b4151;
+      color: white;
+    }
+    .btn-more-less {
+      border: none;
+      padding: 10px;
+      border-radius: 20px;
+      margin-top: 10px;
+      background-color: #0b4151;
+      color: white;
+    }
+    .add-to-cart {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      .quantity {
+        input {
+          padding: 20px;
+          border-radius: 20px;
+          border: none;
+          max-width: 50px;
+        }
+      }
+    }
+    .quantity-input {
+      border-radius: 10px;
+      padding: 10px;
+      border: none;
+      max-width: 50px;
+      color: white;
+      background-color: #0b4151;
+    }
+  }
+}
+.all-products-section {
+  .title-item {
+    font-family: 'Cabinet-Grotesk', sans-serif;
+    font-size: clamp(12px, 4vh, 20px);
+  }
+  .price-item {
+    font-family: 'Cabinet-Grotesk', sans-serif;
+    font-size: clamp(12px, 4vh, 19px);
+  }
+}
+@media (max-width: 768px) {
+  .product-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .product-image {
+      height: 300px;
+    }
+  }
+}

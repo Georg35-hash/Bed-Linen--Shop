@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=arrow_upward"
+    />
+    <title>Your Profile</title>
+  </head>
+  <body>
+    <main>
+      <section class="profile-section">
+        <form id="userForm">
+          <h1>Welcome to your Profile</h1>
+          <p id="errorMessage" style="color: rgb(255, 0, 0)"></p>
+          <p for="photo">Profile Picture:</p>
+          <div class="profile-photo-wrapper">
+            <img
+              src="#"
+              alt="Profile Picture"
+              id="profilePic"
+              class="profile-photo"
+              style="display: none"
+            />
+            <label for="photo" class="upload-icon">
+              <span class="material-symbols-outlined">arrow_upward</span>
+            </label>
+          </div>
+          <input type="file" name="photo" id="photo" accept=".png, .jpg" />
+          <div id="profile"></div>
+          <div id="errorMessage"></div>
+          <div class="buttons-wrapper">
+            <button type="submit">Save Changes</button>
+            <a href="/bed-linen-shop1/index.html" id="log-out-btn">Log Out</a>
+            <a href="homeEN.html" id="back-to-home">Back to home</a>
+          </div>
+        </form>
+      </section>
+    </main>
+    <script type="module" src="/src/mainProfile"></script>
+  </body>
+</html>

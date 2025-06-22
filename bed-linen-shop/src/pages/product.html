@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Details - Bed Linen Shop</title>
+  </head>
+  <body>
+    <main>
+      <section class="product-section">
+        <img class="product-image" id="productImage" />
+        <div class="product-wrapper">
+          <h2 class="product-name" id="productName"></h2>
+          <p class="product-price" id="productPrice"></p>
+          <p class="product-description" id="productDescription"></p>
+          <button class="btn-more-less">Show more</button>
+          <p id="errorMessage" style="color: white"></p>
+          <p style="color: white; display: flex">
+            <span id="inStock" style="color: white"></span>
+          </p>
+          <div class="add-to-cart" id="addToCartWrapper"></div>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="/src/mainProduct.js"></script>
+  </body>
+</html>

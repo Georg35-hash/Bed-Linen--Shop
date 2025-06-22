@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shopping Cart - Bed Linen Shop</title>
+  </head>
+  <body>
+    <main>
+      <h1 class="cart-title">Shopping Cart</h1>
+      <div class="cart-container">
+        <div class="cart-items" id="cartItems"></div>
+        <div class="cart-summary">
+          <h2>Order Summary</h2>
+          <div class="summary-item">
+            <span>Total:</span>
+            <span class="total"></span>
+          </div>
+          <button class="checkout-btn" id="checkoutBtn">
+            Proceed to Checkout
+          </button>
+        </div>
+      </div>
+      <div class="form-wrapper">
+        <div class="checkout-background">
+          <div class="tracking-wrapper">
+            <div class="tracking-box">
+              <div class="order-tracking">
+                <span class="is-complete"></span>
+                <p>To order<br /><span id="ordered"></span></p>
+              </div>
+              <div class="order-tracking">
+                <span class="is-complete"></span>
+                <p>Payment<br /><span id="payed"></span></p>
+              </div>
+              <div class="order-tracking">
+                <span class="is-complete"></span>
+                <p>Information<br /><span id="information"></span></p>
+              </div>
+            </div>
+          </div>
+
+          <form class="order-form" id="orderForm">
+            <span id="productData"></span>
+            <input
+              class="form-input"
+              type="text"
+              name="order-name"
+              placeholder="Name"
+              required
+            />
+            <input
+              class="form-input"
+              type="text"
+              name="order-email"
+              placeholder="Email"
+              required
+            />
+            <input
+              class="form-input"
+              type="text"
+              name="order-phone"
+              placeholder="Phone"
+              required
+            />
+            <input
+              class="form-input"
+              type="text"
+              name="order-adress"
+              placeholder="Enter your adress"
+              required
+            />
+            <button class="form-button" type="submit">To Order</button>
+            <button class="form-button btn-сancle" type="button">Cancel</button>
+          </form>
+
+          <form class="payment-form" id="paymentForm">
+            <div id="card-element">
+              <div id="card-number"></div>
+              <div id="card-expiry"></div>
+              <div id="card-cvc"></div>
+            </div>
+            <input
+              class="form-input"
+              type="text"
+              name="name"
+              placeholder="Name"
+              required
+            />
+            <input
+              class="form-input"
+              type="text"
+              name="email"
+              placeholder="Email"
+              required
+            />
+            <input
+              class="form-input"
+              type="text"
+              name="phone"
+              placeholder="Phone"
+              required
+            />
+            <select
+              class="form-input"
+              name="country"
+              id="countrySelect"
+              placeholder="Country"
+              required
+            ></select>
+            <span class="total" required></span>
+            <button id="submitBtn" class="form-button" type="submit">
+              Pay
+            </button>
+            <button class="form-button btn-сancle" type="button">Cancel</button>
+          </form>
+
+          <form class="succsess-form" id="succsessForm">
+            <div class="succsess-container"></div>
+            <button type="submit" id="succsessSubmit">Ok</button>
+          </form>
+        </div>
+      </div>
+    </main>
+    <script type="module" src="/src/mainCart.js"></script>
+  </body>
+</html>
