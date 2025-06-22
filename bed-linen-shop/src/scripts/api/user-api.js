@@ -11,7 +11,7 @@ export async function userData(id) {
 
 export async function updateUser(id, updatedData) {
   const res = await fetch(`${API_URL}/${id}`, {
-    method: 'PUT',
+    method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(updatedData),
   });

@@ -103,7 +103,7 @@ export function openModal() {
     const name = form.querySelector('[name="order-name"]').value;
     const phone = form.querySelector('[name="order-phone"]').value;
     const email = form.querySelector('[name="order-email"]').value;
-    const adress = form.querySelector('[name="order-adress"]').value;
+    const address = form.querySelector('[name="order-address"]').value;
     const orderDate = document.getElementById('ordered');
 
     try {
@@ -111,12 +111,11 @@ export function openModal() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          customer: { name, phone, email, adress },
+          customer: { name, phone, email, address },
           items: cartState.products.map(p => ({
-            id: p._id,
-            name: p.name,
+            product: p._id,
             price: p.price,
-            count: p.count,
+            quantity: p.count,
           })),
         }),
       });

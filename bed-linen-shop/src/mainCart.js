@@ -3,6 +3,7 @@ import { setupPaymentForm, countrySelector } from './scripts/payment-handler';
 import '../src/mainCart.scss';
 import './components/mainFooter.js';
 import './components/mainHeader.js';
+
 document.addEventListener('DOMContentLoaded', () => {
   setupPaymentForm();
   countrySelector();
