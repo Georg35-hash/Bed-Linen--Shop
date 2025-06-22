@@ -30,7 +30,6 @@ app.use(
 
 // Middleware
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
