@@ -1,7 +1,6 @@
 import { cartState } from '../state/cartState';
 import { deleteHandler } from './delete-handler';
 import { setupPaymentForm } from './payment-handler';
-
 export function renderCart() {
   cartState.loadLocalStorage();
 
@@ -36,7 +35,6 @@ export function renderCart() {
 export function openModal() {
   const openModalBtn = document.querySelector('#checkoutBtn');
   const modal = document.querySelector('.form-wrapper');
-  const cancelBtns = document.querySelectorAll('.form-button');
   const summaryTotalEl = document.querySelector('.cart-summary .total');
   const modalTotalEl = document.querySelector('.form-wrapper .total');
   const trackingSteps = document.querySelectorAll('.order-tracking');
@@ -45,34 +43,44 @@ export function openModal() {
   const productData = document.getElementById('productData');
   const succsessSubmit = document.querySelector('.succsess-container');
   const succsessSubmitBtn = document.getElementById('succsessSubmit');
+  const orderTrackingContainer = document.querySelector(
+    '.order-tracking-container',
+  );
 
-  if (!openModalBtn || !modal) return;
+  if (!openModalBtn || !modal || !orderForm || !paymentForm) return;
 
   const goToStep = stepIndex => {
     trackingSteps.forEach((step, i) => {
       step.classList.toggle('completed', i <= stepIndex);
     });
-  };
 
-  const formatDate = () => {
-    const d = new Date();
-    const minute = String(d.getMinutes()).padStart(2, '0');
-    const hour = String(d.getHours()).padStart(2, '0');
-    const year = d.getFullYear();
-    const day = String(d.getDate()).padStart(2, '0');
-    const month = String(d.getMonth() + 1).padStart(2, '0');
-    return `<span>${year}-${day}-${month} ${hour}:${minute}</span>`;
+    orderForm.style.display = stepIndex === 0 ? 'flex' : 'none';
+    paymentForm.style.display = stepIndex === 1 ? 'flex' : 'none';
+    succsessSubmit.style.display = stepIndex === 2 ? 'flex' : 'none';
+    succsessSubmitBtn.style.display = stepIndex === 2 ? 'flex' : 'none';
+
+    if (stepIndex === 2 && orderTrackingContainer) {
+      const now = new Date();
+      const timeString = now.toLocaleString();
+      let timeEl = orderTrackingContainer.querySelector('.payment-time');
+      if (!timeEl) {
+        timeEl = document.createElement('p');
+        timeEl.className = 'payment-time';
+        orderTrackingContainer.appendChild(timeEl);
+      }
+      timeEl.textContent = `Оплачено: ${timeString}`;
+    }
   };
 
   openModalBtn.addEventListener('click', e => {
     e.preventDefault();
+
     if (summaryTotalEl && modalTotalEl) {
       modalTotalEl.textContent = summaryTotalEl.textContent;
     }
-    modal.style.display = 'block';
-    goToStep(0);
 
     cartState.loadLocalStorage();
+
     productData.innerHTML = '';
     cartState.products.forEach(product => {
       productData.innerHTML += `
@@ -88,12 +96,20 @@ export function openModal() {
         </div>
       `;
     });
-  });
 
-  cancelBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      modal.style.display = 'none';
-    });
+    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+    const nameInput = orderForm.querySelector('[name="order-name"]');
+    const phoneInput = orderForm.querySelector('[name="order-phone"]');
+    const emailInput = orderForm.querySelector('[name="order-email"]');
+    const addressInput = orderForm.querySelector('[name="order-address"]');
+
+    nameInput.value = userData.name || '';
+    phoneInput.value = userData.phone || '';
+    emailInput.value = userData.email || '';
+    addressInput.value = '';
+
+    modal.style.display = 'block';
+    goToStep(0);
   });
 
   orderForm.addEventListener('submit', async e => {
@@ -104,7 +120,6 @@ export function openModal() {
     const phone = form.querySelector('[name="order-phone"]').value;
     const email = form.querySelector('[name="order-email"]').value;
     const address = form.querySelector('[name="order-address"]').value;
-    const orderDate = document.getElementById('ordered');
 
     try {
       const res = await fetch('http://localhost:3000/api/orders', {
@@ -124,40 +139,40 @@ export function openModal() {
 
       const { _id: orderId } = await res.json();
       localStorage.setItem('orderId', orderId);
+      localStorage.setItem('userData', JSON.stringify({ name, phone, email }));
 
-      orderDate.innerHTML = formatDate();
-
-      orderForm.style.display = 'none';
-      paymentForm.style.display = 'flex';
       goToStep(1);
-
-      await setupPaymentForm?.();
+      await setupPaymentForm();
     } catch (err) {
       console.error('Ошибка создания заказа:', err);
       alert('Произошла ошибка. Попробуйте позже.');
     }
   });
 
-  paymentForm.addEventListener('submit', e => {
+  paymentForm.addEventListener('submit', async e => {
     e.preventDefault();
-
-    const payedDate = document.getElementById('payed');
-    payedDate.innerHTML = formatDate();
-
-    paymentForm.style.display = 'none';
-    goToStep(2);
-
-    const infoDate = document.getElementById('information');
-    infoDate.innerHTML = formatDate();
-
-    succsessSubmit.innerHTML = `
-      <p class="succes-message">Success</p>
-      <p class="succes-message">Manager will contact you shortly</p>
-    `;
-    succsessSubmitBtn.style.display = 'flex';
-
-    goToStep(3);
+    try {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      goToStep(2);
+    } catch (err) {
+      console.error('Ошибка при оплате:', err);
+      alert('Оплата не удалась, попробуйте еще раз.');
+    }
   });
+
+  const cancelBtns = document.querySelectorAll('.btn-сancle');
+  cancelBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+  });
+
+  if (succsessSubmitBtn) {
+    succsessSubmitBtn.addEventListener('click', () => {
+      modal.style.display = 'none';
+      cartState.clear();
+    });
+  }
 }
 
 openModal();

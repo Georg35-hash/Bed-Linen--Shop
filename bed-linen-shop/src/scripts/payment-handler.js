@@ -4,8 +4,6 @@ const stripePromise = loadStripe(
   'pk_test_51ROxGvQuXi6dIvV2Bs2l1qUHldWAB8tDVXV94Ld4hJPuy2oy8Zvq107qt6flh6HNfxFFtPTfVLrXOu2imdIQzvWo00j2zCZYWR',
 );
 
-let cardNumber, cardExpiry, cardCvc;
-
 export async function setupPaymentForm() {
   const orderId = localStorage.getItem('orderId');
   const stripe = await stripePromise;
@@ -16,35 +14,36 @@ export async function setupPaymentForm() {
     return;
   }
 
-  // Создание и монтирование элементов карты
-  cardNumber = elements.create('cardNumber');
-  cardExpiry = elements.create('cardExpiry');
-  cardCvc = elements.create('cardCvc');
+  const cardNumber = elements.create('cardNumber');
+  const cardExpiry = elements.create('cardExpiry');
+  const cardCvc = elements.create('cardCvc');
 
   cardNumber.mount('#card-number');
   cardExpiry.mount('#card-expiry');
   cardCvc.mount('#card-cvc');
 
-  // Подгружаем данные заказа
-  try {
-    const res = await fetch(`http://localhost:3000/api/orders/${orderId}`);
-    if (!res.ok) throw new Error('Error in data');
+  const form = document.querySelector('#paymentForm');
 
-    const { customer } = await res.json();
-    const { name, email, phone, createdAt } = customer;
+  // Очистка полей, чтобы избежать автозаполнения
+  if (form) {
+    form.querySelector('[name="name"]').value = '';
+    form.querySelector('[name="email"]').value = '';
+    form.querySelector('[name="phone"]').value = '';
+  }
 
-    const form = document.querySelector('#paymentForm');
-    if (form) {
+  // Загружаем данные из localStorage
+  const savedUserData = localStorage.getItem('userData');
+  if (savedUserData && form) {
+    try {
+      const { name, email, phone } = JSON.parse(savedUserData);
       form.querySelector('[name="name"]').value = name || '';
       form.querySelector('[name="email"]').value = email || '';
       form.querySelector('[name="phone"]').value = phone || '';
+    } catch (e) {
+      console.warn('Ошибка при чтении userData из localStorage:', e);
     }
-  } catch (err) {
-    console.error('Ошибка загрузки данных оплаты:', err);
   }
 
-  // Обработчик сабмита формы — добавляется ВСЕГДА
-  const form = document.querySelector('#paymentForm');
   form?.addEventListener('submit', async e => {
     e.preventDefault();
 
@@ -90,7 +89,6 @@ export async function setupPaymentForm() {
       const result = await stripe.confirmCardPayment(clientSecret, {
         payment_method: pmResult.paymentMethod.id,
       });
-      console.log(result);
 
       if (result.error) {
         alert('Payment failed: ' + result.error.message);
