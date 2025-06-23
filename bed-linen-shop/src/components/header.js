@@ -59,16 +59,12 @@ export function createHeader() {
           <li class="header__icons-item">
             <label for="page-select" class="header__icons-link" style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
               <img class="header__icon" src="/assets/header/internet.svg" alt="internet" />
-              <select id="page-select">
-                <option value="#">Мова / Language</option>
-                <option value="#">EN</option>
-                <option value="indexUA.html">UA</option>
-              </select>
+              <select style='opacity:0;' id="page-select"></select>
+              
             </label>
           </li>
         </ul>
       </div>
-
       <nav id="navMenu" class="nav-menu">
         <ul class="nav-menu__list">
           <li class="nav-menu__item">

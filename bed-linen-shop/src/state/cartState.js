@@ -32,4 +32,9 @@ export const cartState = {
     }
     this.saveToLocalStorage();
   },
+
+  clear() {
+    this.products = [];
+    this.saveToLocalStorage();
+  },
 };

@@ -3,104 +3,134 @@ import { getAllCountries } from 'postal-code-checker';
 const stripePromise = loadStripe(
   'pk_test_51ROxGvQuXi6dIvV2Bs2l1qUHldWAB8tDVXV94Ld4hJPuy2oy8Zvq107qt6flh6HNfxFFtPTfVLrXOu2imdIQzvWo00j2zCZYWR',
 );
+let cardNumber, cardExpiry, cardCvc;
+let paymentFormInitialized = false;
 
 export async function setupPaymentForm() {
   const orderId = localStorage.getItem('orderId');
+
   const stripe = await stripePromise;
   const elements = stripe.elements();
 
-  if (!orderId) {
-    alert('Order ID not found');
+  // Создаем и монтируем Stripe Elements один раз
+  if (!cardNumber) {
+    cardNumber = elements.create('cardNumber');
+    cardExpiry = elements.create('cardExpiry');
+    cardCvc = elements.create('cardCvc');
+
+    cardNumber.mount('#card-number');
+    cardExpiry.mount('#card-expiry');
+    cardCvc.mount('#card-cvc');
+  }
+
+  const form = document.querySelector('#paymentForm');
+  if (!form) {
+    console.error('Payment form not found in DOM');
     return;
   }
 
-  const cardNumber = elements.create('cardNumber');
-  const cardExpiry = elements.create('cardExpiry');
-  const cardCvc = elements.create('cardCvc');
+  ['name', 'email', 'phone'].forEach(name => {
+    const input = form.querySelector(`[name="${name}"]`);
+    if (input) input.value = '';
+  });
 
-  cardNumber.mount('#card-number');
-  cardExpiry.mount('#card-expiry');
-  cardCvc.mount('#card-cvc');
-
-  const form = document.querySelector('#paymentForm');
-
-  // Очистка полей, чтобы избежать автозаполнения
-  if (form) {
-    form.querySelector('[name="name"]').value = '';
-    form.querySelector('[name="email"]').value = '';
-    form.querySelector('[name="phone"]').value = '';
-  }
-
-  // Загружаем данные из localStorage
-  const savedUserData = localStorage.getItem('userData');
-  if (savedUserData && form) {
-    try {
+  try {
+    const savedUserData = localStorage.getItem('userData');
+    if (savedUserData) {
       const { name, email, phone } = JSON.parse(savedUserData);
-      form.querySelector('[name="name"]').value = name || '';
-      form.querySelector('[name="email"]').value = email || '';
-      form.querySelector('[name="phone"]').value = phone || '';
-    } catch (e) {
-      console.warn('Ошибка при чтении userData из localStorage:', e);
+      if (form.querySelector('[name="name"]'))
+        form.querySelector('[name="name"]').value = name || '';
+      if (form.querySelector('[name="email"]'))
+        form.querySelector('[name="email"]').value = email || '';
+      if (form.querySelector('[name="phone"]'))
+        form.querySelector('[name="phone"]').value = phone || '';
     }
+  } catch (e) {
+    console.warn('Error parsing userData from localStorage:', e);
   }
 
-  form?.addEventListener('submit', async e => {
-    e.preventDefault();
+  if (!paymentFormInitialized) {
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
 
-    const name = form.querySelector('[name="name"]').value.trim();
-    const email = form.querySelector('[name="email"]').value.trim();
-    const phone = form.querySelector('[name="phone"]').value.trim();
-    const country = form.querySelector('[name="country"]').value.trim();
+      const name = form.querySelector('[name="name"]').value.trim();
+      const email = form.querySelector('[name="email"]').value.trim();
+      const phone = form.querySelector('[name="phone"]').value.trim();
+      const country = form.querySelector('[name="country"]').value.trim();
 
-    const amount = parseFloat(
-      document.querySelector('.form-wrapper .total')?.textContent,
-    );
+      const amountStr = document.querySelector(
+        '.form-wrapper .total',
+      )?.textContent;
+      const amount = parseFloat(amountStr);
 
-    if (isNaN(amount)) {
-      alert('Invalid amount');
-      return;
-    }
-
-    try {
-      const res = await fetch('http://localhost:3000/payment', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, amount, country, email, phone }),
-      });
-
-      const { clientSecret } = await res.json();
-
-      const pmResult = await stripe.createPaymentMethod({
-        type: 'card',
-        card: cardNumber,
-        billing_details: {
-          name,
-          email,
-          phone,
-          address: { country },
-        },
-      });
-
-      if (pmResult.error) {
-        alert('Error creating payment method: ' + pmResult.error.message);
+      if (!name || !email || !phone || !country) {
+        alert('Please fill in all required fields.');
         return;
       }
 
-      const result = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: pmResult.paymentMethod.id,
-      });
-
-      if (result.error) {
-        alert('Payment failed: ' + result.error.message);
-      } else if (result.paymentIntent?.status === 'succeeded') {
-        alert('Payment succeeded! 🎉');
-        await updateOrderStatus(orderId, 'paid');
+      if (isNaN(amount) || amount <= 0) {
+        alert('Invalid payment amount');
+        return;
       }
-    } catch (err) {
-      console.error(err);
-      alert('Payment error');
-    }
-  });
+
+      try {
+        const res = await fetch('http://localhost:3000/payment', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, amount, country, email, phone }),
+        });
+
+        if (!res.ok) {
+          const text = await res.text();
+          throw new Error(
+            `Server payment endpoint error: ${text || res.statusText}`,
+          );
+        }
+
+        const { clientSecret } = await res.json();
+        if (!clientSecret) {
+          throw new Error('No clientSecret received from server');
+        }
+
+        const pmResult = await stripe.createPaymentMethod({
+          type: 'card',
+          card: cardNumber,
+          billing_details: { name, email, phone, address: { country } },
+        });
+
+        if (pmResult.error) {
+          alert('Error creating payment method: ' + pmResult.error.message);
+          return;
+        }
+
+        const paymentResult = await stripe.confirmCardPayment(clientSecret, {
+          payment_method: pmResult.paymentMethod.id,
+        });
+
+        if (paymentResult.error) {
+          alert('Payment failed: ' + paymentResult.error.message);
+          return;
+        }
+
+        if (paymentResult.paymentIntent?.status === 'succeeded') {
+          alert('Payment succeeded! 🎉');
+          try {
+            await updateOrderStatus(orderId, 'paid');
+          } catch (updateErr) {
+            console.error('Error updating order status:', updateErr);
+            alert('Payment was successful, but failed to update order status.');
+          }
+        } else {
+          alert('Payment not completed successfully.');
+        }
+      } catch (err) {
+        console.error('Payment process error:', err);
+        alert('Payment error: ' + err.message);
+      }
+    });
+
+    paymentFormInitialized = true;
+  }
 }
 
 async function updateOrderStatus(orderId, newStatus) {

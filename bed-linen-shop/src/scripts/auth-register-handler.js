@@ -7,6 +7,11 @@ export async function register() {
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
 
+    if (data.password !== data.repPassword) {
+      alert('Passwords do not match!');
+      return;
+    }
+
     try {
       const response = await fetch('http://localhost:3000/signup', {
         method: 'POST',
@@ -23,6 +28,7 @@ export async function register() {
 
       if (response.ok) {
         alert('Registration successful!');
+        form.reset();
       } else {
         alert(result.error || 'Registration failed');
       }

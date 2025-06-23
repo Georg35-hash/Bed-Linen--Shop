@@ -23,6 +23,9 @@
       </div>
       <div class="form-wrapper">
         <div class="checkout-background">
+          <h2 style="justify-content: center; display: flex; color: white">
+            Make an order!
+          </h2>
           <div class="tracking-wrapper">
             <div class="tracking-box">
               <div class="order-tracking">
@@ -49,6 +52,8 @@
               placeholder="Name"
               required
             />
+            <div class="error-message" data-for="order-name"></div>
+
             <input
               class="form-input"
               type="text"
@@ -56,6 +61,8 @@
               placeholder="Email"
               required
             />
+            <div class="error-message" data-for="order-email"></div>
+
             <input
               class="form-input"
               type="text"
@@ -63,6 +70,8 @@
               placeholder="Phone"
               required
             />
+            <div class="error-message" data-for="order-phone"></div>
+
             <input
               class="form-input"
               type="text"
@@ -70,6 +79,8 @@
               placeholder="Enter your address"
               required
             />
+            <div class="error-message" data-for="order-address"></div>
+
             <button class="form-button" type="submit">To Order</button>
             <button class="form-button btn-сancle" type="button">Cancel</button>
           </form>
@@ -87,6 +98,8 @@
               placeholder="Name"
               required
             />
+            <div class="error-message" data-for="name"></div>
+
             <input
               class="form-input"
               type="text"
@@ -94,6 +107,8 @@
               placeholder="Email"
               required
             />
+            <div class="error-message" data-for="email"></div>
+
             <input
               class="form-input"
               type="text"
@@ -101,6 +116,8 @@
               placeholder="Phone"
               required
             />
+            <div class="error-message" data-for="phone"></div>
+
             <select
               class="form-input"
               name="country"
@@ -108,6 +125,8 @@
               placeholder="Country"
               required
             ></select>
+            <div class="error-message" data-for="country"></div>
+
             <span class="total" required></span>
             <button id="submitBtn" class="form-button" type="submit">
               Pay
@@ -115,9 +134,30 @@
             <button class="form-button btn-сancle" type="button">Cancel</button>
           </form>
 
-          <form class="succsess-form" id="succsessForm">
+          <form
+            id="succsessForm"
+            style="
+              z-index: 2;
+              display: none;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              gap: 15px;
+            "
+          >
             <div class="succsess-container"></div>
-            <button type="submit" id="succsessSubmit">Ok</button>
+            <button
+              type="button"
+              id="succsessSubmit"
+              style="
+                padding: 10px 20px;
+                font-size: 16px;
+                cursor: pointer;
+                display: none;
+              "
+            >
+              Ok
+            </button>
           </form>
         </div>
       </div>

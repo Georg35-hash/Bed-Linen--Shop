@@ -9,7 +9,7 @@ export function sendContactForm() {
       const email = e.target.email.value.trim();
 
       if (!email) {
-        alert('❗ Email обовʼязковий');
+        alert('❗ Email is required');
         return;
       }
 
@@ -24,16 +24,16 @@ export function sendContactForm() {
           },
         );
 
-        alert('✅ Пошта успішно відправлена!');
+        alert('✅ Letter is sended!');
         form.reset();
       } catch (error) {
         console.error(
-          '❌ Fehler beim Senden des Kontaktformulars:',
+          '❌ Error sending contact form:',
           error?.response || error,
         );
         alert(
           error?.response?.data?.message ||
-            '❌ Сталася помилка під час надсилання.',
+            '❌ An error occurred while sending.',
         );
       }
     });

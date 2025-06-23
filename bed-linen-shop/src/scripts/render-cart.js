@@ -40,14 +40,16 @@ export function openModal() {
   const trackingSteps = document.querySelectorAll('.order-tracking');
   const orderForm = document.getElementById('orderForm');
   const paymentForm = document.getElementById('paymentForm');
-  const productData = document.getElementById('productData');
-  const succsessSubmit = document.querySelector('.succsess-container');
+  const succsessForm = document.getElementById('succsessForm');
+  const succsessContainer = document.querySelector('.succsess-container');
   const succsessSubmitBtn = document.getElementById('succsessSubmit');
   const orderTrackingContainer = document.querySelector(
     '.order-tracking-container',
   );
+  const productData = document.getElementById('productData');
 
-  if (!openModalBtn || !modal || !orderForm || !paymentForm) return;
+  if (!openModalBtn || !modal || !orderForm || !paymentForm || !succsessForm)
+    return;
 
   const goToStep = stepIndex => {
     trackingSteps.forEach((step, i) => {
@@ -56,30 +58,49 @@ export function openModal() {
 
     orderForm.style.display = stepIndex === 0 ? 'flex' : 'none';
     paymentForm.style.display = stepIndex === 1 ? 'flex' : 'none';
-    succsessSubmit.style.display = stepIndex === 2 ? 'flex' : 'none';
-    succsessSubmitBtn.style.display = stepIndex === 2 ? 'flex' : 'none';
+    succsessForm.style.display = stepIndex === 2 ? 'flex' : 'none';
 
-    if (stepIndex === 2 && orderTrackingContainer) {
-      const now = new Date();
-      const timeString = now.toLocaleString();
-      let timeEl = orderTrackingContainer.querySelector('.payment-time');
-      if (!timeEl) {
-        timeEl = document.createElement('p');
-        timeEl.className = 'payment-time';
-        orderTrackingContainer.appendChild(timeEl);
+    if (succsessSubmitBtn) {
+      succsessSubmitBtn.style.display =
+        stepIndex === 2 ? 'inline-block' : 'none';
+    }
+
+    if (stepIndex === 2) {
+      succsessContainer.innerHTML = `<p style="color:white;">Your order has been successfully placed! Thank you for your purchase.</p>`;
+
+      succsessForm.style.flexDirection = 'column';
+      succsessForm.style.alignItems = 'center';
+      succsessForm.style.justifyContent = 'center';
+      succsessForm.style.gap = '15px';
+
+      if (orderTrackingContainer) {
+        const now = new Date();
+        const timeString = now.toLocaleString();
+        let timeEl = orderTrackingContainer.querySelector('.payment-time');
+        if (!timeEl) {
+          timeEl = document.createElement('p');
+          timeEl.className = 'payment-time';
+          orderTrackingContainer.appendChild(timeEl);
+        }
+        timeEl.textContent = `Paid: ${timeString}`;
       }
-      timeEl.textContent = `Оплачено: ${timeString}`;
+    } else {
+      succsessContainer.innerHTML = '';
     }
   };
 
   openModalBtn.addEventListener('click', e => {
     e.preventDefault();
+    cartState.loadLocalStorage();
+
+    if (!cartState.products || cartState.products.length === 0) {
+      alert('No orders found');
+      return;
+    }
 
     if (summaryTotalEl && modalTotalEl) {
       modalTotalEl.textContent = summaryTotalEl.textContent;
     }
-
-    cartState.loadLocalStorage();
 
     productData.innerHTML = '';
     cartState.products.forEach(product => {
@@ -90,7 +111,6 @@ export function openModal() {
               <p class='title-item'>${product.name}</p> 
               <p class='price-item'>${product.price}$</p>
               <p class='product-total-count'>x${product.count}</p>
-              <span class='rubish'>&#10006;</span>
             </li>
           </ul>
         </div>
@@ -98,15 +118,12 @@ export function openModal() {
     });
 
     const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-    const nameInput = orderForm.querySelector('[name="order-name"]');
-    const phoneInput = orderForm.querySelector('[name="order-phone"]');
-    const emailInput = orderForm.querySelector('[name="order-email"]');
-    const addressInput = orderForm.querySelector('[name="order-address"]');
-
-    nameInput.value = userData.name || '';
-    phoneInput.value = userData.phone || '';
-    emailInput.value = userData.email || '';
-    addressInput.value = '';
+    orderForm.querySelector('[name="order-name"]').value = userData.name || '';
+    orderForm.querySelector('[name="order-phone"]').value =
+      userData.phone || '';
+    orderForm.querySelector('[name="order-email"]').value =
+      userData.email || '';
+    orderForm.querySelector('[name="order-address"]').value = '';
 
     modal.style.display = 'block';
     goToStep(0);
@@ -114,6 +131,7 @@ export function openModal() {
 
   orderForm.addEventListener('submit', async e => {
     e.preventDefault();
+    if (!validateForm(orderForm)) return;
 
     const form = e.target;
     const name = form.querySelector('[name="order-name"]').value;
@@ -135,7 +153,7 @@ export function openModal() {
         }),
       });
 
-      if (!res.ok) throw new Error('Ошибка при создании заказа');
+      if (!res.ok) throw new Error('Error per creating an order');
 
       const { _id: orderId } = await res.json();
       localStorage.setItem('orderId', orderId);
@@ -143,22 +161,42 @@ export function openModal() {
 
       goToStep(1);
       await setupPaymentForm();
-    } catch (err) {
-      console.error('Ошибка создания заказа:', err);
-      alert('Произошла ошибка. Попробуйте позже.');
+    } catch {
+      alert('Error. Try later.');
     }
   });
 
   paymentForm.addEventListener('submit', async e => {
     e.preventDefault();
+    if (!validateForm(paymentForm)) return;
+
     try {
       await new Promise(resolve => setTimeout(resolve, 1000));
       goToStep(2);
-    } catch (err) {
-      console.error('Ошибка при оплате:', err);
-      alert('Оплата не удалась, попробуйте еще раз.');
+      cartState.clear();
+      productData.innerHTML = '';
+      if (summaryTotalEl) summaryTotalEl.textContent = '0';
+    } catch {
+      alert('Payment failed, please try again.');
     }
   });
+
+  if (succsessSubmitBtn) {
+    succsessSubmitBtn.addEventListener('click', () => {
+      modal.style.display = 'none';
+      cartState.clear();
+      productData.innerHTML = '';
+      if (summaryTotalEl) summaryTotalEl.textContent = '0';
+
+      orderForm.querySelector('[name="order-name"]').value = '';
+      orderForm.querySelector('[name="order-phone"]').value = '';
+      orderForm.querySelector('[name="order-email"]').value = '';
+      orderForm.querySelector('[name="order-address"]').value = '';
+
+      localStorage.removeItem('userData');
+      localStorage.removeItem('orderId');
+    });
+  }
 
   const cancelBtns = document.querySelectorAll('.btn-сancle');
   cancelBtns.forEach(btn => {
@@ -166,13 +204,69 @@ export function openModal() {
       modal.style.display = 'none';
     });
   });
-
-  if (succsessSubmitBtn) {
-    succsessSubmitBtn.addEventListener('click', () => {
-      modal.style.display = 'none';
-      cartState.clear();
-    });
-  }
 }
 
 openModal();
+
+function validateForm(form) {
+  let isValid = true;
+
+  form.querySelectorAll('.error-message').forEach(el => (el.textContent = ''));
+
+  form.querySelectorAll('input, select, textarea').forEach(input => {
+    if (input.hasAttribute('required')) {
+      if (!input.value.trim()) {
+        const errorEl = form.querySelector(
+          `.error-message[data-for="${input.name}"]`,
+        );
+        errorEl.style.color = 'red';
+        if (errorEl) errorEl.textContent = 'This field is required';
+        isValid = false;
+        return;
+      }
+
+      if (
+        input.type === 'email' ||
+        input.name.toLowerCase().includes('email')
+      ) {
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(input.value.trim())) {
+          const errorEl = form.querySelector(
+            `.error-message[data-for="${input.name}"]`,
+          );
+          if (errorEl) errorEl.style.color = 'red';
+          errorEl.textContent = 'Enter a valid email';
+          isValid = false;
+          return;
+        }
+      }
+
+      if (input.name.toLowerCase().includes('phone')) {
+        const phonePattern = /^\+?[\d\s\-]{7,15}$/;
+        if (!phonePattern.test(input.value.trim())) {
+          const errorEl = form.querySelector(
+            `.error-message[data-for="${input.name}"]`,
+          );
+          if (errorEl) errorEl.style.color = 'red';
+          errorEl.textContent = 'Enter a valid phone number';
+          isValid = false;
+          return;
+        }
+      }
+
+      if (input.name === 'order-address') {
+        if (input.value.trim().length < 5) {
+          const errorEl = form.querySelector(
+            `.error-message[data-for="${input.name}"]`,
+          );
+          if (errorEl) errorEl.style.color = 'red';
+          errorEl.textContent = 'Enter a valid address (min 5 chars)';
+          isValid = false;
+          return;
+        }
+      }
+    }
+  });
+
+  return isValid;
+}
